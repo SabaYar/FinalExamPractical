@@ -1,19 +1,54 @@
-import { Button } from "@/components/ui/button"
+"use client"
 
-export default function Page() {
+import React from "react"
+import { fetchRecipes } from "@/lib/api/recipes"
+import { useQuery } from "@tanstack/react-query"
+import { Recipe } from "@/lib/api/types"
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from "@/components/ui/table"
+
+import { PageContainer } from "@/components/page-container"
+
+export default function RecipeList() {
+  const { data } = useQuery({
+    queryKey: ["recipes"],
+    queryFn: fetchRecipes,
+  })
+
   return (
-    <div className="flex min-h-svh p-6">
-      <div className="flex max-w-md min-w-0 flex-col gap-4 text-sm leading-loose">
-        <div>
-          <h1 className="font-medium">Project ready!</h1>
-          <p>You may now add components and start building.</p>
-          <p>We&apos;ve already added the button component for you.</p>
-          <Button className="mt-2">Button</Button>
-        </div>
-        <div className="font-mono text-xs text-muted-foreground">
-          (Press <kbd>d</kbd> to toggle dark mode)
-        </div>
-      </div>
-    </div>
+    <PageContainer>
+      <h1 className="text-4xl text-green-700">Recipe List</h1>
+      <Table>
+        <TableHeader>
+          <TableRow>
+            <TableHead>Dish Name</TableHead>
+            <TableHead>Rating</TableHead>
+            <TableHead>Cuisine Type</TableHead>
+            <TableHead>Featured</TableHead>
+            <TableHead>Servings</TableHead>
+            <TableHead>Available</TableHead>
+          </TableRow>
+        </TableHeader>
+        <TableBody>
+          {data?.map((recipe: Recipe) => (
+            <TableRow key={recipe.id}>
+              <TableCell>{recipe.dishName}</TableCell>
+              <TableCell>{recipe.rating.toLocaleString()}</TableCell>
+              <TableCell>{recipe.cuisineType}</TableCell>
+              <TableCell>{recipe.featured}</TableCell>
+              <TableCell>{recipe.servings.toLocaleString()}</TableCell>
+              <TableCell>{recipe.available}</TableCell>
+            </TableRow>
+          ))}
+        </TableBody>
+      </Table>
+    </PageContainer>
   )
 }
+
