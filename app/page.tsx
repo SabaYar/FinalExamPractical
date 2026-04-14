@@ -27,6 +27,7 @@ export default function RecipeList() {
       <Table>
         <TableHeader>
           <TableRow>
+            <TableHead>ID</TableHead>
             <TableHead>Dish Name</TableHead>
             <TableHead>Rating</TableHead>
             <TableHead>Cuisine Type</TableHead>
@@ -38,12 +39,13 @@ export default function RecipeList() {
         <TableBody>
           {data?.map((recipe: Recipe) => (
             <TableRow key={recipe.id}>
+              <TableCell>{recipe.id.toLocaleString()}</TableCell>
               <TableCell>{recipe.dishName}</TableCell>
               <TableCell>{recipe.rating.toLocaleString()}</TableCell>
               <TableCell>{recipe.cuisineType}</TableCell>
-              <TableCell>{recipe.featured}</TableCell>
+              <TableCell>{recipe.featured.toLocaleString()}</TableCell>
               <TableCell>{recipe.servings.toLocaleString()}</TableCell>
-              <TableCell>{recipe.available}</TableCell>
+              <TableCell>{recipe.available.toLocaleString()}</TableCell>
             </TableRow>
           ))}
         </TableBody>
